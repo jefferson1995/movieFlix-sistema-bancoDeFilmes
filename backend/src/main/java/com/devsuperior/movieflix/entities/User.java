@@ -38,7 +38,7 @@ public class User implements Serializable{
 	private Set<Role> roles = new HashSet<>(); 
 	
 	
-	@OneToMany
+	@OneToMany(mappedBy = "user")
 	List<Review> reviews = new ArrayList<>();
 	
 	public User() {

@@ -1,5 +1,8 @@
 package com.devsuperior.movieflix.entities;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,8 +13,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_Review")
-public class Review {
-
+public class Review implements Serializable {
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -20,6 +23,10 @@ public class Review {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+	
+	@ManyToOne
+	@JoinColumn(name = "movie_id")
+	private Movie movie;
 	
 	public Review() {
 		
@@ -46,6 +53,24 @@ public class Review {
 	public void setText(String text) {
 		this.text = text;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Review other = (Review) obj;
+		return Objects.equals(id, other.id);
+	}
+	
 	
 	
 }
