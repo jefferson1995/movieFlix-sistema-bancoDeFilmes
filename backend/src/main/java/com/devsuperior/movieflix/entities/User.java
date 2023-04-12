@@ -1,7 +1,9 @@
 package com.devsuperior.movieflix.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -13,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -33,6 +36,10 @@ public class User implements Serializable{
 			joinColumns = @JoinColumn(name = "user_id"),
 			inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>(); 
+	
+	
+	@OneToMany
+	List<Review> reviews = new ArrayList<>();
 	
 	public User() {
 		
@@ -76,6 +83,18 @@ public class User implements Serializable{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	
+	
+
+	public List<Review> getReviews() {
+		return reviews;
 	}
 
 	@Override
