@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.devsuperior.movieflix.services.exceptions.DatabaseException;
+import com.devsuperior.movieflix.services.exceptions.ForbiddenException;
 import com.devsuperior.movieflix.services.exceptions.ResourceNotFoundException;
+import com.devsuperior.movieflix.services.exceptions.UnauthorizedException;
 
 /*Classe utilizada para identificar e tratar os erros.
  * Trata os erros conforme a exceção identificada
@@ -76,4 +78,24 @@ public class ResourceExceptionHandler {
 		
 		return ResponseEntity.status(status).body(err);
 	}
+	
+	//Tratamentos customizados
+	
+		//403
+		@ExceptionHandler(ForbiddenException.class) //tipo de exception que vai interroper
+		public ResponseEntity<OAuthCustomError> forbidden(ForbiddenException e, HttpServletRequest request){ //tipo que será retornado OAuthCustomError
+			
+			OAuthCustomError err = new OAuthCustomError("Forbidden", e.getMessage()); //Objeto da resposta
+			
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+		}
+		
+		//401
+		@ExceptionHandler(UnauthorizedException.class) //tipo de exception que vai interroper
+		public ResponseEntity<OAuthCustomError> unauthorized(UnauthorizedException e, HttpServletRequest request){ //tipo que será retornado OAuthCustomError
+			
+			OAuthCustomError err = new OAuthCustomError("Forbidden", e.getMessage()); //Objeto da resposta
+			
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(err);
+		}
 }
