@@ -15,8 +15,8 @@ INSERT INTO tb_movie(title, sub_Title, year, img_Url, synopsis, genre_id) VALUES
 INSERT INTO tb_movie(title, sub_Title, year, img_Url, synopsis, genre_id) VALUES ('Homem de ferro', 'ferro', 2022, 'http://www.guiadosquadrinhos.com/homem-de-ferro', 'Aventura do homem de ferro',2);
 INSERT INTO tb_movie(title, sub_Title, year, img_Url, synopsis, genre_id) VALUES ('Vingadores', 'Guerra do além', 2023, 'http://www.guiadosquadrinhos.com/vingadores', 'Muita guerra',3);
 
-INSERT INTO tb_review(text, user_id, movie_id) VALUES ('Filme muito bom', 1, 1);
-INSERT INTO tb_review(text, user_id, movie_id) VALUES ('Gostei e recomendo', 1, 2); 
+INSERT INTO tb_review(text, user_id, movie_id) VALUES ('Filme muito bom', 2, 1);
+INSERT INTO tb_review(text, user_id, movie_id) VALUES ('Gostei e recomendo', 2, 2); 
 INSERT INTO tb_review(text, user_id, movie_id) VALUES ('Muito top', 2, 3); 
 
  
