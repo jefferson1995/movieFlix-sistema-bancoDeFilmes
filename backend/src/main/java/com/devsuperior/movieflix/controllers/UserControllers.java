@@ -11,14 +11,14 @@ import com.devsuperior.movieflix.dto.UserDTO;
 import com.devsuperior.movieflix.services.UserService;
 
 @RestController
-@RequestMapping(value = "/users/profile")
+@RequestMapping(value = "/users")
 public class UserControllers {
 
 	@Autowired
 	private UserService service;
 
-	@PreAuthorize("hasAnyRole('MEMBER', 'VISITOR')")
-	@GetMapping
+	
+	@GetMapping(value= "/profile")
 	public ResponseEntity<UserDTO> findByUsserLogged() {
 
 		UserDTO dto = service.findByUsserLogged();
