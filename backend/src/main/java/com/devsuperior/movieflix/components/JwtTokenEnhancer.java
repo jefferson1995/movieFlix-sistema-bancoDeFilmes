@@ -1,4 +1,4 @@
-package com.devsuperior.movieflix;
+package com.devsuperior.movieflix.components;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,8 +30,9 @@ public class JwtTokenEnhancer implements TokenEnhancer{
 		User user = userRepository.findByEmail(authentication.getName()); 
 		
 		Map<String, Object> map = new HashMap<>(); //Para adicionar no corpo do Token
-		map.put("userFirstName", user.getName());
 		map.put("userId", user.getId());
+		map.put("userFirstName", user.getName());
+		map.put("email", user.getEmail());
 		
 		//Para adicionar no token		//troca o tipo da classe
 		DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken; 

@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
-import com.devsuperior.movieflix.JwtTokenEnhancer;
+import com.devsuperior.movieflix.components.JwtTokenEnhancer;
 
 @Configuration
 @EnableAuthorizationServer //representa o Auth. server    //Checklist do OAuth 2.0
