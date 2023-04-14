@@ -128,6 +128,17 @@ public class User implements UserDetails, Serializable{
 		 */
 		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getAuthority())).collect(Collectors.toList());
 	}
+	
+	//Percorre a lista de perfis(role) e verifica se o usuário tem o ROLE_MEMBER
+	public boolean hasHole(String roleName) {
+		for(Role role: roles) {
+			if(role.getAuthority().equals(roleName)) {
+				return true;
+			}
+		}
+		return false;
+	}	
+
 
 	@Override
 	public String getUsername() {
