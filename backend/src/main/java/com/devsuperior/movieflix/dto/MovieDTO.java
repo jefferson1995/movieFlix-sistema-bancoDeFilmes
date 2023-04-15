@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.devsuperior.movieflix.entities.Movie;
-import com.devsuperior.movieflix.entities.Review;
 
 public class MovieDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -20,7 +19,7 @@ public class MovieDTO implements Serializable {
 	private List<ReviewDTO> reviews = new ArrayList<>();
 
 	public MovieDTO() {
-
+		
 	}
 
 	public MovieDTO(Long id, String title, String subTitle, Integer year, String imgUrl, String synopsis) {
@@ -92,5 +91,15 @@ public class MovieDTO implements Serializable {
 	public void setSynopsis(String synopsis) {
 		this.synopsis = synopsis;
 	}
+
+	public List<ReviewDTO> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<ReviewDTO> reviews) {
+		this.reviews = reviews;
+	}
+	
+	
 
 }

@@ -18,6 +18,8 @@ public class MovieService {
 
 	@Autowired
 	private MovieRepository repository;
+	
+	
 
 	@Transactional(readOnly = true)
 	public Page<MovieDTO> findAllPaged(Pageable pageable) {
@@ -29,11 +31,12 @@ public class MovieService {
 	
 	
 	@Transactional(readOnly = true)
-	public MovieDTO findByID(Long id) {
+	public MovieDTO findById(Long id) {
 		Optional<Movie> obj = repository.findById(id);
 		Movie entity = obj.orElseThrow(() -> new ResourceNotFoundException("Nenhum filme encontrado"));
 		
 		return new MovieDTO(entity);
 	}
+	
 	
 }

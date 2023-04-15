@@ -34,7 +34,7 @@ public class MovieControllers {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<MovieDTO> findById(@PathVariable Long id){
 		
-		MovieDTO dto = service.findByID(id);
+		MovieDTO dto = service.findById(id);
 		
 		return ResponseEntity.ok().body(dto);
 	}
