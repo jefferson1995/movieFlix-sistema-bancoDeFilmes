@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -46,6 +48,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	private AuthenticationManager authenticationManager;
 	
 	@Autowired
+	private UserDetailsService userDetailsService;
+	
+	@Autowired
 	private JwtTokenEnhancer tokenEnhancer; //Para adicionar informações no token ex. nome e id do usuário
 
 	@Override
@@ -64,8 +69,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		.withClient(clientId) 
 		.secret(passwordEncoder.encode(clientSecret)) 
 		.scopes("read", "write") 
-		.authorizedGrantTypes("password") 
-		.accessTokenValiditySeconds(jwtDuration); //validade
+		.authorizedGrantTypes("password", "refresh_token") 
+		.accessTokenValiditySeconds(jwtDuration)//validade token
+		.refreshTokenValiditySeconds(jwtDuration); //validade refresh token
 	}
 
 	
@@ -84,6 +90,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		endpoints.authenticationManager(authenticationManager)  //Processa a autenticação -> configurado na classe websecuityconfig
 		.tokenStore(tokenStore)     //Objeto responsável para processar o token 
 		.accessTokenConverter(accessTokenConverter) //registra a chave -> definida na classe appConfig
-		.tokenEnhancer(chain); //para adicionar o chain id e nome usuário
+		.tokenEnhancer(chain)//para adicionar o chain id e nome usuário
+		.userDetailsService(userDetailsService);
 	}
 }
