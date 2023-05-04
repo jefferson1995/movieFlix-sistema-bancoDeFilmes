@@ -1,6 +1,9 @@
 package com.devsuperior.movieflix.dto;
 
 import java.io.Serializable;
+import java.util.HashMap;
+
+import javax.validation.constraints.NotBlank;
 
 import com.devsuperior.movieflix.entities.Review;
 
@@ -8,10 +11,16 @@ public class ReviewDTO  implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
+	
+	@NotBlank(message = "Campo obrigatório")
 	private String text;
 	private Long userId;
 	private Long movieId;
 	
+	HashMap<String, String> user = new HashMap<>();
+
+	
+
 	public ReviewDTO() {
 		
 	}
@@ -25,12 +34,19 @@ public class ReviewDTO  implements Serializable{
 	}
 	
 	public ReviewDTO(Review entity) {
+		
 		id = entity.getId();
 		text = entity.getText();
 		userId = entity.getUser().getId();
 		movieId = entity.getMovie().getId();
+		user.put("id", entity.getUser().getId().toString());
+		user.put("name", entity.getUser().getName());
+		user.put("email", entity.getUser().getEmail());
 		
 	}
+	
+	
+	
 
 	public Long getId() {
 		return id;
@@ -63,6 +79,17 @@ public class ReviewDTO  implements Serializable{
 	public void setMovieId(Long movieId) {
 		this.movieId = movieId;
 	}
+
+	public HashMap<String, String> getUser() {
+		return user;
+	}
+
+	public void setUser(HashMap<String, String> user) {
+		this.user = user;
+	}
+
+	
+	
 	
 	
 
