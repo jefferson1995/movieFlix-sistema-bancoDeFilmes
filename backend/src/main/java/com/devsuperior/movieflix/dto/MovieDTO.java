@@ -48,6 +48,8 @@ public class MovieDTO implements Serializable {
 		
 	}
 	
+	
+	
 
 	public Long getId() {
 		return id;
