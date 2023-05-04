@@ -2,6 +2,7 @@ package com.devsuperior.movieflix.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.devsuperior.movieflix.entities.Movie;
@@ -17,6 +18,8 @@ public class MovieDTO implements Serializable {
 	private String synopsis;
 	
 	private List<ReviewDTO> reviews = new ArrayList<>();
+	
+	HashMap<String, String> genre = new HashMap<>();
 
 	public MovieDTO() {
 		
@@ -40,6 +43,8 @@ public class MovieDTO implements Serializable {
 		imgUrl = entity.getImgUrl();
 		synopsis = entity.getSynopsis();
 		entity.getReviews().forEach(x -> this.reviews.add(new ReviewDTO(x)));
+		genre.put("id", entity.getGenre().getId().toString());
+		genre.put("id", entity.getGenre().getName());
 		
 	}
 	
