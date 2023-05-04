@@ -44,7 +44,7 @@ public class MovieDTO implements Serializable {
 		synopsis = entity.getSynopsis();
 		entity.getReviews().forEach(x -> this.reviews.add(new ReviewDTO(x)));
 		genre.put("id", entity.getGenre().getId().toString());
-		genre.put("id", entity.getGenre().getName());
+		genre.put("name", entity.getGenre().getName());
 		
 	}
 	
@@ -103,6 +103,14 @@ public class MovieDTO implements Serializable {
 
 	public void setReviews(List<ReviewDTO> reviews) {
 		this.reviews = reviews;
+	}
+
+	public HashMap<String, String> getGenre() {
+		return genre;
+	}
+
+	public void setGenre(HashMap<String, String> genre) {
+		this.genre = genre;
 	}
 	
 	

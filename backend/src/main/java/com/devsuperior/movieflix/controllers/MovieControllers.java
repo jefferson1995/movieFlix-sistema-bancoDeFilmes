@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.devsuperior.movieflix.dto.MovieDTO;
@@ -22,14 +23,17 @@ public class MovieControllers {
 	private MovieService service;
 
 	@GetMapping
-	public ResponseEntity<Page<MovieDTO>> findAllPaged(Pageable pageable) {
+	public ResponseEntity<Page<MovieDTO>> findAllPaged(
+			@RequestParam(value = "genreId", defaultValue = "0") Long genreId
+			,Pageable pageable) {
 
 		//Retorna por ordem de nome
 		PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("title"));
-		Page<MovieDTO> page = service.findAllPaged(pageRequest);
+		Page<MovieDTO> page = service.find(genreId, pageRequest);
 
 		return ResponseEntity.ok().body(page);
 	}
+	
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<MovieDTO> findById(@PathVariable Long id){

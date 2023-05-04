@@ -1,9 +1,24 @@
 package com.devsuperior.movieflix.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.devsuperior.movieflix.entities.Genre;
 import com.devsuperior.movieflix.entities.Movie;
 
 public interface MovieRepository extends JpaRepository<Movie, Long> {
 
+	//JPQL          //DISTINTCT para não repetir os produtos
+		@Query("SELECT DISTINCT obj FROM Movie obj INNER JOIN obj.genre gen WHERE "
+				+ "(COALESCE(:genres) IS NULL OR  gen IN :genres)")
+		Page<Movie> find(List<Genre> genres,Pageable pageable);
+		
+		//Problema N +1 consultas categrias do produto
+		
+		@Query("SELECT obj FROM Movie obj JOIN FETCH obj.genre WHERE obj IN :movies ")
+		List<Movie> findMovieWithgenres(List<Movie> movies);
 }

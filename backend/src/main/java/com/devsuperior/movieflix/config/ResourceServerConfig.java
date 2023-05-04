@@ -48,6 +48,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	
 		private static final String[] PUBLIC = {"/oauth/token", "/h2-console/**"}; //Público para o usuário logar
 		
+		private static final String[] FILMES = {"/movies/**"};
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
@@ -58,7 +59,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		}
 		
 		http.authorizeRequests()
-		.antMatchers(PUBLIC).permitAll() 
+		.antMatchers(PUBLIC).permitAll()
+		.antMatchers(FILMES).authenticated()
 		.anyRequest().authenticated(); //Qualquer outra rota, precisa estar logado/autenticado
 		
 
