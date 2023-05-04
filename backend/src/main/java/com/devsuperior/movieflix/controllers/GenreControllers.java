@@ -1,5 +1,7 @@
 package com.devsuperior.movieflix.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,14 @@ public class GenreControllers {
 
 	@Autowired
 	private GenreService service;
+	
+	@GetMapping
+	public ResponseEntity<List<GenreDTO>> findAll(){
+		
+		List<GenreDTO> dto = service.findAll();
+		
+		return ResponseEntity.ok().body(dto);
+	}
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<GenreDTO> findById(@PathVariable Long id){

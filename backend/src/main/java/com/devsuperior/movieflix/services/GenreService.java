@@ -1,6 +1,8 @@
 package com.devsuperior.movieflix.services;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,13 @@ public class GenreService {
 	@Autowired
 	private GenreRepository repository;
 	
+	
+	@Transactional(readOnly = true)
+	public List<GenreDTO> findAll(){
+		List<Genre> obj = repository.findAll();
+		return obj.stream().map(x -> new GenreDTO(x)).collect(Collectors.toList());  
+	}
+	
 	@Transactional(readOnly = true)
 	public GenreDTO findAllByid(Long id) {
 		
@@ -24,6 +33,8 @@ public class GenreService {
 		Genre entity = obj.orElseThrow(() -> new ResourceNotFoundException("Nenhum genero encontrado"));
 		
 		return new GenreDTO(entity);
+		
+		
 		
 	}
 }

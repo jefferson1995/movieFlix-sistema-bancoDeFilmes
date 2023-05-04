@@ -3,8 +3,10 @@ package com.devsuperior.movieflix.dto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.devsuperior.movieflix.entities.Genre;
+import com.devsuperior.movieflix.entities.Movie;
 
 
 public class GenreDTO implements Serializable{
@@ -29,6 +31,11 @@ public class GenreDTO implements Serializable{
 		super();
 		id = entity.getId();
 		name = entity.getName();
+		
+	}
+	
+	public GenreDTO(Genre entity, Set<Movie> movies) {
+		this(entity);
 		entity.getMovies().forEach(x -> this.movies.add(new MovieDTO(x)));
 	}
 	
