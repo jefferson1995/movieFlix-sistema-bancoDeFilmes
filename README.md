@@ -23,9 +23,9 @@ Um usuário possui nome, email e senha, sendo que o email é seu nome de usuári
 
 
 ## Layout web
-![Web 1](https://github.com/jefferson1995/dsmeta/main/Assets/Web1.png)
-![Web 1](https://github.com/jefferson1995/dsmeta/main/Assets/Web2.png)
-![Web 1](https://github.com/jefferson1995/dsmeta/main/Assets/Web3.png)
+![Web 1](https://github.com/jefferson1995/movieFlix/blob/main/Assets/web1.png)
+![Web 1](https://github.com/jefferson1995/movieFlix/blob/main/Assets/web2.png)
+![Web 1](https://github.com/jefferson1995/movieFlix/blob/main/Assets/web3.png)
 
 ## Design Figma
 
