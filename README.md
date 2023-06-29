@@ -31,12 +31,17 @@ Um usuário possui nome, email e senha, sendo que o email é seu nome de usuári
 
 https://www.figma.com/file/qmduL2GXrMrqRLyFjFCk56/MovieFlix-web
 
+
+## Modelo conceitual 
+
+![Web 1](https://github.com/jefferson1995/movieflix/blob/main/Assets/modelo-conceitual-com-forum.png)
+
 # Tecnologias utilizadas
 ## Back end
 
 - Java
 - Spring Boot
-- Sprring security
+- Spring security
 - OAuth2
 - JWT refresh token
 - Junit 5
