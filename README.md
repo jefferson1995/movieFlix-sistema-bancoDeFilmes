@@ -34,7 +34,7 @@ https://www.figma.com/file/qmduL2GXrMrqRLyFjFCk56/MovieFlix-web
 
 ## Modelo conceitual 
 
-![Web 1](https://github.com/jefferson1995/movieflix/blob/main/Assets/modelo-conceitual-com-forum.png)
+![Web 1](https://github.com/jefferson1995/movieFlix/blob/main/Assets/diagrama.png)
 
 # Tecnologias utilizadas
 ## Back end
