@@ -9,9 +9,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -19,79 +22,101 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 /*
- * verifica a requisição e token e 
+ * verifica a requisição e token e
  * verifica se está ok para entregar o recurso
  */
-
 
 
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-	//Pega os routs que pode acessar o backend
-	@Value("${cors.origins}") 
-	private String corsOrigins;
+    //Pega os routs que pode acessar o backend
+    @Value("${cors.origins}")
+    private String corsOrigins;
 
-	//ambiente de execuçaõ da aplicação
-	@Autowired 
-	private Environment env; 
-	
-	@Autowired
-	private JwtTokenStore tokenStore; 
-	
-	
-	/*
-	 * endpoints publicos - 
-	 * pode adicionar mais rotas caso necessário
-	 */
-	
-		private static final String[] PUBLIC = {"/oauth/token", "/h2-console/**"}; //Público para o usuário logar
-		
-		private static final String[] FILMES = {"/movies/**"};
+    //ambiente de execuçaõ da aplicação
+    @Autowired
+    private Environment env;
 
-	@Override
-	public void configure(HttpSecurity http) throws Exception {
+    @Autowired
+    private JwtTokenStore tokenStore;
 
-		// H2 frames
-		if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
-			http.headers().frameOptions().disable();
-		}
-		
-		http.authorizeRequests()
-		.antMatchers(PUBLIC).permitAll()
-		.antMatchers(FILMES).authenticated()
-		.anyRequest().authenticated(); //Qualquer outra rota, precisa estar logado/autenticado
-		
 
-		http.cors().configurationSource(corsConfigurationSource());
-		
-		//antMatchers define as autorizações 
-	}
-	
-	//Configuração para liberar que o backend seja acessado por outros routs
-	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
+    //Rotas para liberar o swagger
+    private static final String[] SWAGGER = {
+            "/v2/api-docs",
+            "/configuration/ui",
+            "/swagger-resources/**",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**"
+    };
 
-		String[] origins = corsOrigins.split(",");
+    //Disponibiliza o swagger
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().mvcMatchers(HttpMethod.OPTIONS, "/**");
+        web.ignoring().mvcMatchers(SWAGGER);
+    }
 
-	    CorsConfiguration corsConfig = new CorsConfiguration();
-	    corsConfig.setAllowedOriginPatterns(Arrays.asList(origins));
-	    corsConfig.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH"));
-	    corsConfig.setAllowCredentials(true);
-	    corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-	 
-	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	    source.registerCorsConfiguration("/**", corsConfig);
-	    return source;
-	}
+    @Override
+    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+        resources.tokenStore(tokenStore);
+    }
 
-	@Bean
-	FilterRegistrationBean<CorsFilter> corsFilter() {
-	    FilterRegistrationBean<CorsFilter> bean
-	            = new FilterRegistrationBean<>(new CorsFilter(corsConfigurationSource()));
-	    bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-	    return bean;
-	}
+
+    /*
+     * endpoints publicos -
+     * pode adicionar mais rotas caso necessário
+     */
+
+    private static final String[] PUBLIC = {"/oauth/token", "/h2-console/**"}; //Público para o usuário logar
+
+    private static final String[] FILMES = {"/movies/**"};
+
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+
+        // H2 frames
+        if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
+            http.headers().frameOptions().disable();
+        }
+
+        http.authorizeRequests()
+                .antMatchers(PUBLIC).permitAll()
+                .antMatchers(SWAGGER).permitAll()
+                .antMatchers(FILMES).authenticated()
+                .anyRequest().authenticated(); //Qualquer outra rota, precisa estar logado/autenticado
+
+
+        http.cors().configurationSource(corsConfigurationSource());
+
+        //antMatchers define as autorizações
+    }
+
+    //Configuração para liberar que o backend seja acessado por outros routs
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+
+        String[] origins = corsOrigins.split(",");
+
+        CorsConfiguration corsConfig = new CorsConfiguration();
+        corsConfig.setAllowedOriginPatterns(Arrays.asList(origins));
+        corsConfig.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH"));
+        corsConfig.setAllowCredentials(true);
+        corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfig);
+        return source;
+    }
+
+    @Bean
+    FilterRegistrationBean<CorsFilter> corsFilter() {
+        FilterRegistrationBean<CorsFilter> bean
+                = new FilterRegistrationBean<>(new CorsFilter(corsConfigurationSource()));
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return bean;
+    }
 }
 
