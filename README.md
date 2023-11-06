@@ -67,10 +67,14 @@ cd backend
 ./mvnw/wrapper spring-boot:run
 ```
 
+### acesso ao swagger
 
+- Link: http://localhost:8080/swagger-ui.html
 
 # Autor
 
 Jefferson Barbosa dos Santos
 
 https://www.linkedin.com/in/jefferson-barbosa-225349149/
+
+
