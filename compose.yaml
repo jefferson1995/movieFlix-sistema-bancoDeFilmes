@@ -1,0 +1,13 @@
+services:
+  movie-flix:
+    image: jeffersonbdsantos/movie-flix:latest
+    container_name: movie-flix-dev
+    ports:
+      - "8080:8080"
+networks:
+ jefferson_net:
+    driver: bridge
+
+
+
+
